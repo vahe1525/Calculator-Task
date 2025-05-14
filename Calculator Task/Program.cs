@@ -9,12 +9,27 @@ namespace Calculator_Task
         private int num2 = 0;
         private char operation = ' ';
 
-        private void AnalyzeLine(string input)
+        //Analyzing string line 
+        private void AnalyzeLine(string input, ref int res)
         {
-            // Pattern: number, optional space, operator, optional space, number
+            if(input == "c")
+            {
+                this.operation = 'c';
+                this.num1 = 0;
+                this.num2 = 0;
+                res = 0;
+            }
+
+            Match chainedMatch = Regex.Match(input, @"^([\+\-\*/])\s*(-?\d+)$");
             Match match = Regex.Match(input, @"(-?\d+)\s*([\+\-\*/])\s*(-?\d+)");
 
-            if (match.Success)
+            if (chainedMatch.Success)
+            {
+                this.num1 = res;
+                this.operation = char.Parse(chainedMatch.Groups[1].Value);
+                this.num2 = int.Parse(chainedMatch.Groups[2].Value);
+            }
+            else if (match.Success)
             {
                 this.num1 = int.Parse(match.Groups[1].Value);
                 this.operation = char.Parse(match.Groups[2].Value);
@@ -25,7 +40,10 @@ namespace Calculator_Task
             {
                 Console.WriteLine("Invalid input format.");
             }
+
         }
+
+        // Functons for calculations 
         private int Add(int x, int y)
         {
             return x + y;
@@ -43,6 +61,7 @@ namespace Calculator_Task
             return x * y;
         }
 
+        //Start Point function
         public void Start()
         {
             string input = ""; // Try also "12 - 34", "12+34", etc.
@@ -50,9 +69,11 @@ namespace Calculator_Task
 
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("write the input expression : ");
+                Console.Write(result);
                 input = Console.ReadLine();
-                AnalyzeLine(input);
+                AnalyzeLine(input, ref result);
 
                 switch (operation)
                 {
@@ -75,6 +96,10 @@ namespace Calculator_Task
                         result = Multiply(num1, num2);
                         Console.Write(result);
                         break;
+
+                    case 'c':
+                        Console.WriteLine("Calculator cleared.");
+                        continue;
 
                     default:
                         Console.WriteLine("invalid operation symbol");
