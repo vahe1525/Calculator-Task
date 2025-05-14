@@ -12,6 +12,9 @@ namespace Calculator_Task
         //Analyzing string line 
         private void AnalyzeLine(string input, ref int res)
         {
+            Match chainedMatch = Regex.Match(input, @"^([\+\-\*/])\s*(-?\d+)$");
+            Match match = Regex.Match(input, @"(-?\d+)\s*([\+\-\*/])\s*(-?\d+)");
+
             if(input == "c")
             {
                 this.operation = 'c';
@@ -19,11 +22,14 @@ namespace Calculator_Task
                 this.num2 = 0;
                 res = 0;
             }
-
-            Match chainedMatch = Regex.Match(input, @"^([\+\-\*/])\s*(-?\d+)$");
-            Match match = Regex.Match(input, @"(-?\d+)\s*([\+\-\*/])\s*(-?\d+)");
-
-            if (chainedMatch.Success)
+            else if(input == "l")
+            {
+                this.operation = 'l';
+                this.num1 = 0;
+                this.num2 = 0;
+                res = 0;
+            }
+            else if (chainedMatch.Success)
             {
                 this.num1 = res;
                 this.operation = char.Parse(chainedMatch.Groups[1].Value);
@@ -61,10 +67,17 @@ namespace Calculator_Task
             return x * y;
         }
 
+        //Logger function for saving calculations history
+        private void LogCalculation(int result)
+        {
+            string logEntry = $"{num1}{operation}{num2}={result}";
+            File.AppendAllText("log.txt", logEntry + Environment.NewLine);
+        }
+
         //Start Point function
         public void Start()
         {
-            string input = ""; // Try also "12 - 34", "12+34", etc.
+            string input = ""; 
             int result = 0;
 
             while (true)
@@ -80,25 +93,42 @@ namespace Calculator_Task
                     case '+':
                         result = Add(num1, num2);
                         Console.Write(result);
+                        LogCalculation(result);
                         break;
 
                     case '-':
                         result = Subtract(num1, num2);
                         Console.Write(result);
+                        LogCalculation(result);
                         break;
 
                     case '/':
                         result = Divide(num1, num2);
                         Console.Write(result);
+                        LogCalculation(result);
                         break;
 
                     case '*':
                         result = Multiply(num1, num2);
                         Console.Write(result);
+                        LogCalculation(result);
                         break;
 
                     case 'c':
                         Console.WriteLine("Calculator cleared.");
+                        continue;
+                    
+                    case 'l':
+                        Console.WriteLine("Calculator History");
+                        if (File.Exists("log.txt"))
+                        {
+                            string content = File.ReadAllText("log.txt");
+                            Console.WriteLine(content);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Log file does not exist.");
+                        }
                         continue;
 
                     default:
@@ -115,6 +145,8 @@ namespace Calculator_Task
         {
             Calculator calc = new Calculator();
             calc.Start();
+
+
         }
     }
 }
