@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-
 namespace Calculator_Task
 {
     public class Calculator
@@ -47,35 +46,40 @@ namespace Calculator_Task
         public void Start()
         {
             string input = ""; // Try also "12 - 34", "12+34", etc.
+            int result = 0;
 
-            Console.WriteLine("write the input expression : ");
-            input = Console.ReadLine();
-            AnalyzeLine(input);
-
-            switch (operation)
+            while (true)
             {
-                case '+':
-                    Console.WriteLine(Add(num1, num2));
-                    break;
+                Console.WriteLine("write the input expression : ");
+                input = Console.ReadLine();
+                AnalyzeLine(input);
 
-                case '-':
-                    // Code to execute if expression == value2
-                    Console.WriteLine(Subtract(num1, num2));
-                    break;
+                switch (operation)
+                {
+                    case '+':
+                        result = Add(num1, num2);
+                        Console.Write(result);
+                        break;
 
-                case '/':
-                    // Code to execute if expression == value1
-                    Console.WriteLine(Divide(num1, num2));
-                    break;
+                    case '-':
+                        result = Subtract(num1, num2);
+                        Console.Write(result);
+                        break;
 
-                case '*':
-                    // Code to execute if expression == value1
-                    Console.WriteLine(Multiply(num1, num2));
-                    break;
+                    case '/':
+                        result = Divide(num1, num2);
+                        Console.Write(result);
+                        break;
 
-                default:
-                    Console.WriteLine("invalid operation symbol");
-                    break;
+                    case '*':
+                        result = Multiply(num1, num2);
+                        Console.Write(result);
+                        break;
+
+                    default:
+                        Console.WriteLine("invalid operation symbol");
+                        break;
+                }
             }
         }
     }
