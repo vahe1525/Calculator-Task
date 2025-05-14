@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 
 namespace Calculator_Task
@@ -26,6 +27,10 @@ namespace Calculator_Task
                 Console.WriteLine("Invalid input format.");
             }
         }
+        private int Add(int x, int y)
+        {
+            return x + y;
+        }
 
         public Calculator() { }
 
@@ -37,9 +42,29 @@ namespace Calculator_Task
             input = Console.ReadLine();
             AnalyzeLine(input);
 
-            Console.WriteLine($"Number 1: {num1}");
-            Console.WriteLine($"Operator: {operation}");
-            Console.WriteLine($"Number 2: {num2}");
+            switch (operation)
+            {
+                case '+':
+                    Console.WriteLine(Add(num1, num2));
+                    break;
+
+                case '-':
+                    // Code to execute if expression == value2
+                    break;
+
+                case '/':
+                    // Code to execute if expression == value1
+                    break;
+
+                case '*':
+                    // Code to execute if expression == value1
+                    break;
+
+                default:
+                    // Code to execute if none of the above cases match
+                    break;
+            }
+
 
         }
 
