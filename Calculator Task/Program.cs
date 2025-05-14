@@ -31,8 +31,18 @@ namespace Calculator_Task
         {
             return x + y;
         }
-
-        public Calculator() { }
+        private int Subtract(int x, int y)
+        {
+            return x - y;
+        }
+        private int Divide(int x, int y)
+        {
+            return x / y;
+        }
+        private int Multiply(int x, int y)
+        {
+            return x * y;
+        }
 
         public void Start()
         {
@@ -50,24 +60,24 @@ namespace Calculator_Task
 
                 case '-':
                     // Code to execute if expression == value2
+                    Console.WriteLine(Subtract(num1, num2));
                     break;
 
                 case '/':
                     // Code to execute if expression == value1
+                    Console.WriteLine(Divide(num1, num2));
                     break;
 
                 case '*':
                     // Code to execute if expression == value1
+                    Console.WriteLine(Multiply(num1, num2));
                     break;
 
                 default:
-                    // Code to execute if none of the above cases match
+                    Console.WriteLine("invalid operation symbol");
                     break;
             }
-
-
         }
-
     }
 
     internal class Program
